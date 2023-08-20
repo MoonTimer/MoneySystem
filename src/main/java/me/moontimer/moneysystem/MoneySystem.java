@@ -19,6 +19,8 @@ public final class MoneySystem extends JavaPlugin {
         // Plugin startup logic
         instance = this;
         mySQLConnector = new MySQLConnector("85.214.221.218", "3306", "grieferweit", "grieferweit", "1jkpug4mmmfwerr2cokka26y6kzgwuzm07a28hyh");
+        mySQLConnector.connect();
+        mySQLConnector.createTable();
         moneyManager = new MoneyManager(mySQLConnector.getConnection());
 
         Bukkit.getPluginManager().registerEvents(new PlayerJoinListener(), this);

@@ -14,7 +14,7 @@ public class MoneyManager {
     public void createPlayer(String playerUUID) {
         try (PreparedStatement statement = connection.prepareStatement(
                 "INSERT IGNORE INTO player_money (uuid, amount) VALUES (?, ?);")) {
-            statement.setString(1, playerUUID.toString());
+            statement.setString(1, playerUUID);
             statement.setDouble(2, 1000.0);
             statement.executeUpdate();
         } catch (SQLException e) {
@@ -25,10 +25,10 @@ public class MoneyManager {
     public double getMoney(String playerUUID) {
         try (PreparedStatement statement = connection.prepareStatement(
                 "SELECT amount FROM player_money WHERE uuid = ?;")) {
-            statement.setString(1, playerUUID.toString());
+            statement.setString(1, playerUUID);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
-                    return resultSet.getDouble("balance");
+                    return resultSet.getDouble("amount");
                 }
             }
         } catch (SQLException e) {
@@ -41,7 +41,7 @@ public class MoneyManager {
         try (PreparedStatement statement = connection.prepareStatement(
                 "UPDATE player_money SET amount = ? WHERE uuid = ?;")) {
             statement.setDouble(1, amount);
-            statement.setString(2, playerUUID.toString());
+            statement.setString(2, playerUUID);
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
